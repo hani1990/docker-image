@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  swoole:
+    build:
+      context: ./
+    image: koolob/swoole-docker
+    container_name: swoole-framework
+    environment:
+          - TZ=Asia/Shanghai
+    volumes:
+      - ./tmp:/opt/tmp
+      - ./:/opt
+    networks:
+      - frontend
+    ports:
+      - "9501:9501"
+
+networks:
+    frontend:

@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  redis:
+    build:
+      context: ./docker-image/
+    image: redis:3.0
+    container_name: aritube-redis
+    environment:
+      - TZ=Asia/Shanghai
+    command: "redis-server /usr/local/etc/redis6380.conf"
+    volumes:
+      - ./runtime/redis-data:/data
+    ports:
+      - "6380:6380"
+    networks:
+      - backend
+
+
+networks:
+    frontend:
+    backend:
