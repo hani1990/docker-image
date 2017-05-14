@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: ./docker-image/nginx
+    image: hongmen-nginx:1.11
+    container_name: hongmen-nginx
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./runtime/nginx:/opt/log/nginx
+      - ./:/opt/webroot
+      - ./docker-image/nginx/config/sites-enabled:/etc/nginx/sites-enabled
+    depends_on:
+      - php
+    networks:
+      - frontend
+    ports:
+      - "8082:8082"
+
+
+  php:
+    build:
+      context: ./docker-image/php
+    image: hongmen-php:7
+    container_name: hongmen-php
+    environment:
+      - TZ=Asia/Shanghai
+      - DBGP_IDEKEY=docker-php-debug
+    volumes:
+      - ./runtime/php:/opt/log/php
+      - ./:/opt/webroot
+    networks:
+      - frontend
+      - backend
+
+networks:
+    frontend:
+    backend:
